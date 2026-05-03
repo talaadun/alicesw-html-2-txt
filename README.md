@@ -6,7 +6,7 @@
 
 # 1. 如何从爱丽丝书屋获取小说的HTML文件
 
-因为该网站现在禁止另存为html文件，且禁止复制网页内容，目前的办法是：
+因为该网站现在加载出来的小说页面另存为html文件的话，其内部小说内容为空，且网站禁止复制网页内容。所以目前手动获取html的办法是：
 
 需在电脑上操作。
 
@@ -19,18 +19,16 @@
 
 需在Windows电脑上编译运行本程序。
 
-## 直接使用已编译好的exe
+## 直接使用已编译好的exe程序
 
 exe路径：\x64\Release\AliceHtmlExtractor.exe
 
-注意：电脑上必须安装Microsoft Visual C++ 2015-2022 Redistributable (x64) （最新的似乎已改名为Microsoft Visual C++ v14 Redistributable (x64)），可去微软网站下载安装包并安装，安装包名一般为VC_redist.x64.exe。
-
-VC_redist文件夹也提供了此安装文件。
+注意：电脑上必须安装Microsoft Visual C++ 2015-2022 Redistributable (x64) （最新的似乎已改名为Microsoft Visual C++ v14 Redistributable (x64)），可去微软网站下载安装包并安装，安装包名一般为VC_redist.x64.exe。本仓库VC_redist文件夹也提供了此安装文件。
 
 ## 编译本程序
 
 VS2022或以上，必须安装MSVC v143。
 
-## 使用本程序
+## 本程序使用说明
 
 ![本地图片](usage.png "使用说明")
