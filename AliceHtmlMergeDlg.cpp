@@ -18,8 +18,6 @@
 
 #define WM_BOOK_UPDATE_MESSAGE				(WM_USER + 100)
 
-const std::string g_str2ChineseBlankSpaces = u8"　　";
-
 
 // UTF-8 string 转 wstring
 std::wstring utf8_to_wstring(const std::string& utf8)
@@ -264,7 +262,7 @@ void CAliceHtmlMergeDlg::AddChapterText(std::ofstream& file, int nChapterIndex, 
 
 	while (true)
 	{
-		bool bLastText = false;
+		bool bLastparagragh = false;
 
 		// find paragragh start <p>
 		auto posParagraghStartWithP = svHtmlChapterText.find("<p>");
@@ -294,12 +292,12 @@ void CAliceHtmlMergeDlg::AddChapterText(std::ofstream& file, int nChapterIndex, 
 				ASSERT(false);
 			}
 
-			bLastText = true;
+			bLastparagragh = true;
 		}
 
 		file << svParagraph << std::endl;
 
-		if (bLastText)
+		if (bLastparagragh)
 		{
 			break;
 		}
@@ -328,21 +326,21 @@ void CAliceHtmlMergeDlg::GetBooks()
 		return;
 	}
 
-	// 查找所有书籍目录
+	// 查找所有书籍
 
 	WIN32_FIND_DATA findFileData;
-	HANDLE hFind = FindFirstFile((LPCTSTR)(m_cstrDir + _T("\\*.html")), &findFileData);
+
+	HANDLE hFind = FindFirstFile((LPCTSTR)(m_cstrDir), &findFileData);
+	if (hFind == INVALID_HANDLE_VALUE || !(findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+	{
+		AfxMessageBox(_T("无效目录！"));
+		return;
+	}
+
+	hFind = FindFirstFile((LPCTSTR)(m_cstrDir + _T("\\*.html")), &findFileData);
 	if (hFind == INVALID_HANDLE_VALUE)
 	{
-		DWORD err = GetLastError();
-		if (err == ERROR_NO_MORE_FILES)
-		{
-			AfxMessageBox(_T("该目录下没有找到.html 文件\n"));
-		}
-		else
-		{
-			AfxMessageBox(_T("无效目录！"));
-		}
+		AfxMessageBox(_T("该目录下没有找到.html 文件\n"));
 		return;
 	}
 
@@ -358,6 +356,12 @@ void CAliceHtmlMergeDlg::GetBooks()
 		}
 
 	} while (FindNextFile(hFind, &findFileData) != 0);
+
+	if (m_vtrBooks.size() == 0)
+	{
+		AfxMessageBox(_T("该目录下没有找到.html 文件\n"));
+		return;
+	}
 
 	// 确认所有书籍目录是否已有对应txt文件
 	for (auto it = m_vtrBooks.begin(); it != m_vtrBooks.end(); ++it)
